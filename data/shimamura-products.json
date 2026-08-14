@@ -1,6 +1,43 @@
 {
   "schemaVersion": 1,
-  "observedAt": null,
-  "sources": [],
+  "observedAt": "2026-08-14T05:48:51.650Z",
+  "sources": [
+    {
+      "name": "しまむら サンリオ",
+      "url": "https://www.shop-shimamura.com/disp/itemlist/?b=shimamura&popular_tag=%E3%82%B5%E3%83%B3%E3%83%AA%E3%82%AA%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%82%BA",
+      "state": "blocked",
+      "httpStatus": 403,
+      "discovered": 0,
+      "observedAt": "2026-08-14T05:48:23.204Z",
+      "detail": "HTTP 403"
+    },
+    {
+      "name": "しまむら キティ",
+      "url": "https://www.shop-shimamura.com/disp/itemlist/?b=shimamura&q=%E3%82%AD%E3%83%86%E3%82%A3",
+      "state": "blocked",
+      "httpStatus": 403,
+      "discovered": 0,
+      "observedAt": "2026-08-14T05:48:30.499Z",
+      "detail": "HTTP 403"
+    },
+    {
+      "name": "アベイル サンリオ",
+      "url": "https://www.shop-shimamura.com/disp/itemlist/?b=avail&popular_tag=%E3%82%B5%E3%83%B3%E3%83%AA%E3%82%AA%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%82%BA",
+      "state": "blocked",
+      "httpStatus": 403,
+      "discovered": 0,
+      "observedAt": "2026-08-14T05:48:37.542Z",
+      "detail": "HTTP 403"
+    },
+    {
+      "name": "しまむら ちいかわ",
+      "url": "https://www.shop-shimamura.com/disp/itemlist/?b=shimamura&q=%E3%81%A1%E3%81%84%E3%81%8B%E3%82%8F",
+      "state": "blocked",
+      "httpStatus": 403,
+      "discovered": 0,
+      "observedAt": "2026-08-14T05:48:44.584Z",
+      "detail": "HTTP 403"
+    }
+  ],
   "products": []
 }
