@@ -1,6 +1,10 @@
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const { execFile } = require("node:child_process");
+const { promisify } = require("node:util");
 const { chromium } = require("playwright");
+
+const execFileAsync = promisify(execFile);
 
 const OUTPUT_PATH = path.resolve("data/shimamura-products.json");
 const SOURCES = [
@@ -89,6 +93,67 @@ async function scanSource(page, source) {
   }
 }
 
+async function scanOfficialFlyer() {
+  const observedAt = new Date().toISOString();
+  const indexUrl = "https://www.shimamura.gr.jp/shimamura/flier/?g=shimamura";
+  try {
+    const response = await fetch(indexUrl, { signal: AbortSignal.timeout(20_000) });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const html = await response.text();
+    const flyerId = html.match(/\/shimamura\/flier\/detail\/face\/(\d+)\//)?.[1]
+      || html.match(/\/images\/flier\/(\d+)surface\.jpg/)?.[1];
+    if (!flyerId) throw new Error("current flyer id not found");
+    const detailUrl = `https://www.shimamura.gr.jp/shimamura/flier/detail/face/${flyerId}/`;
+    const imageUrl = `https://www.shimamura.gr.jp/images/flier/${flyerId}surface_org.jpg`;
+    const imageResponse = await fetch(imageUrl, { signal: AbortSignal.timeout(30_000) });
+    if (!imageResponse.ok) throw new Error(`flyer image HTTP ${imageResponse.status}`);
+    const imagePath = path.join(process.env.RUNNER_TEMP || "/tmp", `shimamura-flier-${flyerId}.jpg`);
+    await fs.writeFile(imagePath, Buffer.from(await imageResponse.arrayBuffer()));
+    const { stdout } = await execFileAsync("tesseract", [imagePath, "stdout", "-l", "jpn+eng", "--psm", "11"], { maxBuffer: 8 * 1024 * 1024, timeout: 120_000 });
+    const lines = stdout.split(/\r?\n/).map((line) => line.replace(/\s+/g, " ").trim()).filter(Boolean);
+    const products = [];
+    const seen = new Set();
+    for (let index = 0; index < lines.length; index += 1) {
+      const priceMatch = lines[index].match(/([1-9][0-9]?)[,.]([0-9]{3})(?:\s*円|\s*\+?税|\s*税込)?/);
+      if (!priceMatch) continue;
+      const priceJpy = Number(`${priceMatch[1]}${priceMatch[2]}`);
+      if (priceJpy < 100 || priceJpy > 20_000) continue;
+      const nearby = lines.slice(Math.max(0, index - 4), index).filter((line) =>
+        /[ぁ-んァ-ヶ一-龠A-Za-z]/.test(line)
+        && !/売出し|期間|店舗|税込|本体価格|ホームページ|アプリ|限定数|お一人様/.test(line)
+        && line.length >= 2
+        && line.length <= 80
+      );
+      const title = nearby.slice(-2).join(" ").slice(0, 160) || `公式チラシ掲載商品 ${priceJpy}円`;
+      const key = `${title}:${priceJpy}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      products.push({
+        url: `${detailUrl}#ocr-${flyerId}-${products.length + 1}`,
+        title: `${title}【チラシOCR・要確認】`,
+        priceJpy,
+        imageUrls: [imageUrl],
+        sourceName: "しまむら公式チラシ OCR",
+        sourceUrl: detailUrl,
+        observedAt,
+      });
+      if (products.length >= 40) break;
+    }
+    return {
+      name: "しまむら公式チラシ OCR",
+      url: detailUrl,
+      state: products.length ? "observed" : "parse_unobserved",
+      httpStatus: imageResponse.status,
+      discovered: products.length,
+      observedAt,
+      detail: products.length ? `flyer ${flyerId}; OCR candidates require manual verification` : "flyer loaded but no strict price candidates were extracted",
+      products,
+    };
+  } catch (error) {
+    return { name: "しまむら公式チラシ OCR", url: indexUrl, state: "request_error", httpStatus: null, discovered: 0, observedAt, detail: String(error?.message || error).slice(0, 240), products: [] };
+  }
+}
+
 async function main() {
   const previous = await readPrevious();
   const browser = await chromium.launch({ headless: true });
@@ -105,6 +170,7 @@ async function main() {
     await page.waitForTimeout(2_000);
   }
   await browser.close();
+  sources.push(await scanOfficialFlyer());
 
   const previousBySource = new Map((previous.products || []).map((product) => [product.sourceUrl, []]));
   for (const product of previous.products || []) previousBySource.get(product.sourceUrl)?.push(product);
