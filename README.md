@@ -2,6 +2,8 @@
 
 しまむら・アベイルの公開商品ページを低頻度で確認し、取得できた商品のみを候補として表示するCloudflare Workerです。固定の商品データや架空の利益は表示しません。eBay相場は未接続のため、海外相場・利益・ROIは「未観測」として扱います。外部サイトへの出品や注文は行いません。
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/sh-sh-code/shimamura-export-scout)
+
 ## Cloudflare Git連携
 
 Cloudflare Dashboardの **Workers & Pages → Create application → Import a repository** から、このリポジトリを選択します。
@@ -10,6 +12,8 @@ Cloudflare Dashboardの **Workers & Pages → Create application → Import a re
 - Production branch: `main`
 - Build command: なし
 - Deploy command: `npx wrangler deploy`
+
+上のDeployボタンを使う場合、CloudflareがD1を自動作成・接続し、マイグレーションを適用します。公式仕様により、元リポジトリはデプロイ時にPublicである必要があります。
 
 D1未接続でもWorkerと手動スキャンは動作します。その場合、取得商品は画面に一時表示され、再読み込みすると消えます。
 
