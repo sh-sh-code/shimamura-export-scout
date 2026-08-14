@@ -30,6 +30,8 @@ jobs:
         run: |
           npm install --no-save --package-lock=false playwright@1.55.0
           npx playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-jpn
       - name: Scan public product pages
         run: node scripts/scan-shimamura-browser.cjs
       - name: Save changed snapshot
