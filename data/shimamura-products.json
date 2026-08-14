@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "observedAt": "2026-08-14T05:48:51.650Z",
+  "observedAt": "2026-08-14T05:55:09.460Z",
   "sources": [
     {
       "name": "しまむら サンリオ",
@@ -8,7 +8,7 @@
       "state": "blocked",
       "httpStatus": 403,
       "discovered": 0,
-      "observedAt": "2026-08-14T05:48:23.204Z",
+      "observedAt": "2026-08-14T05:54:40.703Z",
       "detail": "HTTP 403"
     },
     {
@@ -17,7 +17,7 @@
       "state": "blocked",
       "httpStatus": 403,
       "discovered": 0,
-      "observedAt": "2026-08-14T05:48:30.499Z",
+      "observedAt": "2026-08-14T05:54:47.866Z",
       "detail": "HTTP 403"
     },
     {
@@ -26,7 +26,7 @@
       "state": "blocked",
       "httpStatus": 403,
       "discovered": 0,
-      "observedAt": "2026-08-14T05:48:37.542Z",
+      "observedAt": "2026-08-14T05:54:54.903Z",
       "detail": "HTTP 403"
     },
     {
@@ -35,7 +35,16 @@
       "state": "blocked",
       "httpStatus": 403,
       "discovered": 0,
-      "observedAt": "2026-08-14T05:48:44.584Z",
+      "observedAt": "2026-08-14T05:55:01.977Z",
+      "detail": "HTTP 403"
+    },
+    {
+      "name": "しまむら公式チラシ OCR",
+      "url": "https://www.shimamura.gr.jp/shimamura/flier/?g=shimamura",
+      "state": "request_error",
+      "httpStatus": null,
+      "discovered": 0,
+      "observedAt": "2026-08-14T05:55:09.034Z",
       "detail": "HTTP 403"
     }
   ],
