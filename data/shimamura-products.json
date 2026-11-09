@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "observedAt": "2026-11-09T09:54:51.046Z",
+  "observedAt": "2026-11-09T20:49:36.945Z",
   "sources": [
     {
       "name": "しまむら サンリオ",
@@ -8,7 +8,7 @@
       "state": "blocked",
       "httpStatus": 403,
       "discovered": 0,
-      "observedAt": "2026-11-09T09:54:22.233Z",
+      "observedAt": "2026-11-09T20:49:08.036Z",
       "detail": "HTTP 403"
     },
     {
@@ -17,7 +17,7 @@
       "state": "blocked",
       "httpStatus": 403,
       "discovered": 0,
-      "observedAt": "2026-11-09T09:54:29.378Z",
+      "observedAt": "2026-11-09T20:49:15.372Z",
       "detail": "HTTP 403"
     },
     {
@@ -26,7 +26,7 @@
       "state": "blocked",
       "httpStatus": 403,
       "discovered": 0,
-      "observedAt": "2026-11-09T09:54:36.415Z",
+      "observedAt": "2026-11-09T20:49:22.419Z",
       "detail": "HTTP 403"
     },
     {
@@ -35,7 +35,7 @@
       "state": "blocked",
       "httpStatus": 403,
       "discovered": 0,
-      "observedAt": "2026-11-09T09:54:43.481Z",
+      "observedAt": "2026-11-09T20:49:29.498Z",
       "detail": "HTTP 403"
     },
     {
@@ -44,7 +44,7 @@
       "state": "request_error",
       "httpStatus": null,
       "discovered": 0,
-      "observedAt": "2026-11-09T09:54:50.707Z",
+      "observedAt": "2026-11-09T20:49:36.572Z",
       "detail": "HTTP 403"
     }
   ],
